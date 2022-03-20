@@ -1,0 +1,38 @@
+version: "3.9"
+networks:
+  front:
+    driver: bridge
+  back:
+    driver: bridge
+services:
+  frontend:
+    image: frontend:1.0
+    ports:
+    - '80:80'
+    depends_on:
+    - backend
+    networks:
+    - front
+  database:
+    image: postgres:alpine3.14
+    volumes:
+    - ./data/db:/var/lib/postgresql/data
+    environment:
+    - POSTGRES_NAME=django
+    - POSTGRES_USER=django
+    - POSTGRES_PASSWORD=django
+    networks:
+    - back
+  backend:
+    image: backend:1.0
+    ports:
+    - "8000:8000"
+    environment:
+    - POSTGRES_NAME=django
+    - POSTGRES_USER=django
+    - POSTGRES_PASSWORD=django
+    depends_on:
+    - database
+    networks:
+    - front
+    - back
