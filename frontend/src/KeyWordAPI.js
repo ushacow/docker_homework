@@ -1,5 +1,6 @@
 import axios from 'axios'
-const API_URL = 'http://localhost:8000/api/v1/lib/key_word/';
+import configData from "./config.json";
+const API_URL = configData.SERVER_URL + '/api/v1/lib/key_word/';
 
 export default class KeyWordManager {
 
